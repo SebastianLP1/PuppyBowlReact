@@ -1,17 +1,15 @@
 import { useEffect, useState } from "react";
 
 
-const PuppyList = ({setShowDetails}) => {
+const PuppyList = ({setShowDetails, setsinglepuppydetailsURL}) => {
     const [AllPuppyList, setAllPuppyList] = useState([]);
     useEffect(() => {
         const getPuppies = async () => {
             const response = await fetch(`https://fsa-puppy-bowl.herokuapp.com/api/2310-FSA-ET-WEB-FT-SF/players`);
             const responseJson = await response.json();
             const allPuppies = responseJson.data.players
-            console.log(allPuppies);
             setAllPuppyList(allPuppies);
-            
-            
+            console.log(allPuppies)
         };
         getPuppies();
     }, [])
@@ -21,7 +19,10 @@ const PuppyList = ({setShowDetails}) => {
             {
                 AllPuppyList.map((singlePuppy) => { 
                // console.log(singlePuppy);
-                return <li onClick ={() =>setShowDetails(true)} key = {singlePuppy.name}>
+                return <li onClick ={() =>{
+                    setShowDetails(true);
+                    setsinglepuppydetailsURL(singlePuppy.breed);
+                    }} key = {singlePuppy.name}>
                     {singlePuppy.name}</li>
                 })
             }
